@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="vortex.png" type="image/x-icon" />
+    <title>Vortex Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #30302f;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        section {
+            margin: 20px;
+            z-index: 1;
+        }
+
+        .game-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .game-item {
+            margin: 10px;
+            text-align: center;
+        }
+
+        .game-image {
+            width: 140px;
+            height: 140px;
+            cursor: pointer;
+            border: 4.5px solid #6f3a9c;
+            border-radius: 10px;
+        }
+
+        .game-text {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <div class="game-container">
+            <div class="game-item">
+                <a href="http://tr.likesyou.org" target="_blank">
+                    <img class="game-image" src="http://tinyurl.com/4b7zb95a" alt="Game 1">
+                </a>
+                <div style="font-family:'Courier New'; font-size: 20px; color:#fff;" class="game-text">Tunnel Rush</div>
+            </div>
+
+            <div class="game-item">
+                <a href="http://driftb.likesyou.org" target="_blank">
+                    <img class="game-image" src="http://tinyurl.com/7edz2phd" alt="Game 2">
+                </a>
+                <div style="font-family:'Courier New'; font-size: 20px; color:#fff;" class="game-text">Drift Boss</div>
+            </div>
+            
+            <!-- Add more game items with images and text as needed -->
+        </div>
+    </section>
+
+    <canvas id="rainCanvas"></canvas>
+
+    <script>
+        // JavaScript for rain effect
+        const canvas = document.getElementById('rainCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const raindrops = [];
+        for (let i = 0; i < 100; i++) {
+            raindrops.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                length: Math.random() * 20 + 5,
+                speed: Math.random() * 5 + 2
+            });
+        }
+
+        function drawRain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (const drop of raindrops) {
+                ctx.beginPath();
+                ctx.moveTo(drop.x, drop.y);
+                ctx.lineTo(drop.x, drop.y + drop.length);
+                ctx.strokeStyle = '#3648bf';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                drop.y += drop.speed;
+
+                if (drop.y > canvas.height) {
+                    drop.y = 0 - drop.length;
+                }
+            }
+
+            requestAnimationFrame(drawRain);
+        }
+
+        drawRain();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+
+</body>
+</html>
